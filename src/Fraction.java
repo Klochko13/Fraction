@@ -1,5 +1,4 @@
 import org.jetbrains.annotations.NotNull;
-
 public class Fraction {
     private int integer; //  целая часть
     private int numerator; // числитель
@@ -66,6 +65,7 @@ public class Fraction {
 
 
     //                Methods
+
     void print() {
         if (integer != 0)
             System.out.print(integer);
@@ -84,35 +84,92 @@ public class Fraction {
     public Fraction add(Fraction fraction) {
         int new_integer;
         int new_denominator = this.denominator;
-        int new_numerator = 0;
-        this.numerator = this.integer * this.denominator + this.numerator;
-        fraction.numerator = fraction.integer * fraction.denominator + fraction.numerator;
+        int new_numerator;
+        int new_numerator1 = this.integer * this.denominator + this.numerator;
+        int new_numerator2 = fraction.integer * fraction.denominator + fraction.numerator;
 
         if (this.denominator != fraction.denominator) {
             new_denominator = this.denominator * fraction.denominator;
-            new_numerator = (this.numerator * fraction.denominator) + (fraction.numerator*this.denominator);
         }
+        new_numerator = (new_numerator1 * fraction.denominator) + (new_numerator2*this.denominator);
         new_integer = new_numerator / new_denominator;
         new_numerator %= new_denominator;
 
-        return new Fraction(new_integer, new_numerator, new_denominator);
+        return new Fraction(new_integer, new_numerator/euclidsAlgorithm(new_numerator, new_denominator),
+                new_denominator/euclidsAlgorithm(new_numerator, new_denominator));
     }
     public Fraction sub(Fraction fraction) {
 
         int new_integer;
         int new_denominator = this.denominator;
-        int new_numerator = 0;
-        this.numerator = this.integer * this.denominator + this.numerator;
-        fraction.numerator = fraction.integer * fraction.denominator + fraction.numerator;
+        int new_numerator;
+        int new_numerator1 = this.integer * this.denominator + this.numerator;
+        int new_numerator2 = fraction.integer * fraction.denominator + fraction.numerator;
 
         if (this.denominator != fraction.denominator) {
             new_denominator = this.denominator * fraction.denominator;
-            new_numerator = this.numerator * fraction.denominator - fraction.numerator*this.denominator;
         }
+        new_numerator = new_numerator1 * fraction.denominator - new_numerator2*this.denominator;
         new_integer = new_numerator / new_denominator;
         new_numerator %= new_denominator;
 
-        return new Fraction(new_integer, new_numerator, new_denominator);
+        return new Fraction(new_integer, new_numerator/euclidsAlgorithm(new_numerator, new_denominator),
+                new_denominator/euclidsAlgorithm(new_numerator, new_denominator));
+    }
+
+    public Fraction mul (Fraction fraction) {
+
+        int new_denominator = this.denominator * fraction.denominator;
+        int new_numerator = (this.integer * this.denominator + this.numerator) * (fraction.integer * fraction.denominator + fraction.numerator);
+        int new_integer= new_numerator / new_denominator;
+        new_numerator %= new_denominator;
+
+        return new Fraction(new_integer, new_numerator/euclidsAlgorithm(new_numerator, new_denominator),
+                new_denominator/euclidsAlgorithm(new_numerator, new_denominator));
+    }
+    public Fraction div (Fraction fraction) {
+
+        int new_numerator1 = this.integer * this.denominator + this.numerator;
+        int new_numerator2 = fraction.integer * fraction.denominator + fraction.numerator;
+        int new_numerator = new_numerator1 * fraction.denominator;
+        int new_denominator = this.denominator * new_numerator2;
+        int new_integer= new_numerator / new_denominator;
+        new_numerator %= new_denominator;
+
+        return new Fraction(new_integer, new_numerator/euclidsAlgorithm(new_numerator, new_denominator),
+                new_denominator/euclidsAlgorithm(new_numerator, new_denominator));
+    }
+    Fraction increment (){
+        this.integer ++;
+        return new Fraction();
+    }
+    Fraction decrement (){
+        this.integer --;
+        return new Fraction();
+    }
+
+    Fraction compareTo (Fraction fraction){
+
+        int new_numerator1 = (this.integer * this.denominator + this.numerator) * fraction.denominator;
+        int new_numerator2 = (fraction.integer * fraction.denominator + fraction.numerator) * this.denominator;
+
+
+        if (new_numerator1 != new_numerator2)
+            return new Fraction(1,1,1);
+        else
+            return new Fraction(2,2,2);
+    }
+    void printCompare() {
+        if (this.integer == 1 && this.numerator == 1 && this.denominator == 1)
+            System.out.println("Дроби не равны");
+        else
+            System.out.println("Дроби равны");
+    }
+    int euclidsAlgorithm(int n1, int n2) {
+
+        if (n2 == 0) {
+            return n1;
+        }
+        return euclidsAlgorithm(n2, n1 % n2);
     }
 }
-
