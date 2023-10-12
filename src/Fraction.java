@@ -83,7 +83,7 @@ public class Fraction {
 
     public Fraction add(Fraction fraction) {
         int new_integer;
-        int new_denominator = this.denominator;
+        int new_denominator=this.denominator;
         int new_numerator;
         int new_numerator1 = this.integer * this.denominator + this.numerator;
         int new_numerator2 = fraction.integer * fraction.denominator + fraction.numerator;
@@ -98,6 +98,26 @@ public class Fraction {
         return new Fraction(new_integer, new_numerator/euclidsAlgorithm(new_numerator, new_denominator),
                 new_denominator/euclidsAlgorithm(new_numerator, new_denominator));
     }
+    public Fraction add1(Fraction left, Fraction right) {
+        int new_integer;
+        int new_denominator=left.denominator;
+        int new_numerator;
+        int new_numerator1 = left.integer * left.denominator + left.numerator;
+        int new_numerator2 = right.integer * right.denominator + right.numerator;
+
+        if (left.denominator != right.denominator) {
+            new_denominator = left.denominator * right.denominator;
+        }
+        new_numerator = (new_numerator1 * right.denominator) + (new_numerator2*left.denominator);
+        new_integer = new_numerator / new_denominator;
+        new_numerator %= new_denominator;
+
+    Fraction new_fraction = new Fraction(new_integer, new_numerator/euclidsAlgorithm(new_numerator, new_denominator),
+            new_denominator/euclidsAlgorithm(new_numerator, new_denominator));
+        return new_fraction.add(right);
+
+    }
+
     public Fraction sub(Fraction fraction) {
 
         int new_integer;
@@ -116,6 +136,26 @@ public class Fraction {
         return new Fraction(new_integer, new_numerator/euclidsAlgorithm(new_numerator, new_denominator),
                 new_denominator/euclidsAlgorithm(new_numerator, new_denominator));
     }
+    public Fraction sub1(Fraction fraction) {
+
+        int new_integer;
+        int new_denominator = this.denominator;
+        int new_numerator;
+        int new_numerator1 = this.integer * this.denominator + this.numerator;
+        int new_numerator2 = fraction.integer * fraction.denominator + fraction.numerator;
+
+        if (this.denominator != fraction.denominator) {
+            new_denominator = this.denominator * fraction.denominator;
+        }
+        new_numerator = new_numerator1 * fraction.denominator - new_numerator2*this.denominator;
+        new_integer = new_numerator / new_denominator;
+        new_numerator %= new_denominator;
+
+        Fraction new_fraction = new Fraction(new_integer, new_numerator/euclidsAlgorithm(new_numerator, new_denominator),
+                new_denominator/euclidsAlgorithm(new_numerator, new_denominator));
+
+        return new_fraction.sub(fraction);
+    }
 
     public Fraction mul (Fraction fraction) {
 
@@ -126,6 +166,20 @@ public class Fraction {
 
         return new Fraction(new_integer, new_numerator/euclidsAlgorithm(new_numerator, new_denominator),
                 new_denominator/euclidsAlgorithm(new_numerator, new_denominator));
+    }
+    public Fraction mul1 (Fraction fraction) {
+        //Fraction n_fraction = new Fraction();
+
+        int new_denominator = this.denominator * fraction.denominator;
+        int new_numerator = (this.integer * this.denominator + this.numerator) * (fraction.integer * fraction.denominator + fraction.numerator);
+        int new_integer= new_numerator / new_denominator;
+        new_numerator %= new_denominator;
+
+        Fraction new_fraction = new Fraction(new_integer, new_numerator/euclidsAlgorithm(new_numerator, new_denominator),
+                new_denominator/euclidsAlgorithm(new_numerator, new_denominator));
+
+        return new_fraction.mul(fraction);
+
     }
     public Fraction div (Fraction fraction) {
 
@@ -138,6 +192,20 @@ public class Fraction {
 
         return new Fraction(new_integer, new_numerator/euclidsAlgorithm(new_numerator, new_denominator),
                 new_denominator/euclidsAlgorithm(new_numerator, new_denominator));
+    }
+    public Fraction div1 (Fraction fraction) {
+
+        int new_numerator1 = this.integer * this.denominator + this.numerator;
+        int new_numerator2 = fraction.integer * fraction.denominator + fraction.numerator;
+        int new_numerator = new_numerator1 * fraction.denominator;
+        int new_denominator = this.denominator * new_numerator2;
+        int new_integer= new_numerator / new_denominator;
+        new_numerator %= new_denominator;
+
+        Fraction new_fraction = new Fraction(new_integer, new_numerator/euclidsAlgorithm(new_numerator, new_denominator),
+                new_denominator/euclidsAlgorithm(new_numerator, new_denominator));
+
+        return new_fraction.div(fraction);
     }
     Fraction increment (){
         this.integer ++;
